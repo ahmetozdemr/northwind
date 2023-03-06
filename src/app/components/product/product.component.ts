@@ -1,10 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Product } from 'src/app/models/product';
-import { HttpClient } from '@angular/common/http';
-import { ProductResponseModel } from 'src/app/models/productResponseModel';
-
-
-
+import { ProductService } from 'src/app/services/product.service';
 
 @Component({
   selector: 'app-product',
@@ -12,43 +8,19 @@ import { ProductResponseModel } from 'src/app/models/productResponseModel';
   styleUrls: ['./product.component.css'],
 })
 export class ProductComponent implements OnInit {
+  products: Product[] = [];
+  dataLoaded = false;
 
-  products:any = [];
-
-  //apiUrl = 'https://localhost:44381/api/products/getall';
-  apiUrl = 'https://demodata.grapecity.com/northwind/api/v1/Products';
-   
-  constructor(private httpClient: HttpClient) {}
+  constructor(private productService: ProductService) {}
 
   ngOnInit(): void {
     this.getProducts();
   }
 
   getProducts() {
-    this.httpClient
-      .get(this.apiUrl)
-      .subscribe((response) => {
-        this.products = response;
-      });
+    this.productService.getProducts().subscribe((response) => {
+      this.products = response;
+      this.dataLoaded = true;
+    });
   }
 }
-
-/*   todos:any = [];
-  apiUrl = 'https://jsonplaceholder.typicode.com/todos';
-
-  constructor(private httpClient: HttpClient) {}
-
-  ngOnInit(): void {
-    this.getProducts();
-  }
-
-  getProducts() {
-    this.httpClient
-      .get(this.apiUrl)
-      .subscribe((response) => {
-        this.todos = response;
-      });
-  }
-} */
-
- 
