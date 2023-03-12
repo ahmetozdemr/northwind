@@ -11,15 +11,14 @@ import { ProductService } from 'src/app/services/product.service';
   styleUrls: ['./product.component.css'],
 })
 export class ProductComponent implements OnInit {
+  filterText = '';
   products: Product[] = [];
   dataLoaded = false;
-  filterText = '';
-
   constructor(
     private productService: ProductService,
     private activatedRoute: ActivatedRoute,
     private toastrService: ToastrService,
-    private cartService:CartService
+    private cartService: CartService
   ) {}
 
   ngOnInit(): void {
@@ -32,14 +31,6 @@ export class ProductComponent implements OnInit {
     });
   }
 
-  getProductsByCategory(categoryId: number) {
-    this.productService
-      .getProductsByCategory(categoryId)
-      .subscribe((response) => {
-        this.products = response.data;
-        this.dataLoaded = true;
-      });
-  }
   getProducts() {
     this.productService.getProducts().subscribe((response) => {
       this.products = response.data;
@@ -47,12 +38,16 @@ export class ProductComponent implements OnInit {
     });
   }
 
-  addToCart(product: Product) {
-    if(product.categoryId===1){
+  getProductsByCategory(categoryId: number) {
+    this.productService
+      .getProductsByCategory(categoryId)
+      .subscribe((response) => {
+        this.products = response.data;
+      });
+  }
 
-    }else{
-      this.cartService.addToCart(product);
-    }
-    this.toastrService.success('Sepete eklendi', product.productName);
+  addToCart(product: Product) {
+    this.toastrService.success('Sepete Eklendi', product.productName);
+    this.cartService.addToCart(product);
   }
 }
