@@ -7,23 +7,22 @@ import { CartService } from 'src/app/services/cart.service';
 @Component({
   selector: 'app-cart-summary',
   templateUrl: './cart-summary.component.html',
-  styleUrls: ['./cart-summary.component.css']
+  styleUrls: ['./cart-summary.component.css'],
 })
 export class CartSummaryComponent implements OnInit {
-
-  cartItems:CartItem[]=[];
-
-  constructor(private cartService:CartService,private toastrService:ToastrService){}
-
+  cartItems: CartItem[] = [];
+  constructor(private cartService: CartService, private toastrService:ToastrService) {}
 
   ngOnInit(): void {
     this.getCart();
   }
-  getCart(){
+  
+  getCart() {
     this.cartItems = this.cartService.list();
   }
-  removeFromCart(product:Product){
+
+  removeFromCart(product: Product) {
     this.cartService.removeFromCart(product);
-    this.toastrService.error("silindi",product.productName + " sepetten silindi.")
+    this.toastrService.error(product.productName , "Silindi!" )
   }
 }
